@@ -1,35 +1,47 @@
-const widgetHeader = () =>{
- return `<h1>Book Online</h1>
- <a href="http://www.wheelhousetesting.net">What do we treat? </a><a href="http://www.wheelhousetesting.net">How much will it cost? </a>`;
-}
+const widgetHeader = () => {
+  return `<div class="container"><h2>Book Online</h2>
+ <a href="http://www.wheelhousetesting.net">What do we treat? </a><a href="http://www.wheelhousetesting.net" id="link">How much will it cost? </a></div>`;
+};
 const widgetBody = () => {
-    return `<h2>Tomorrow</h2>
-    <div class="row" style="margin:10px">
-  <div class="col-sm-3">time</div>
-  <div class="col-sm-3">time</div>
-  <div class="col-sm-3">time</div>
-  <div class="col-sm-3">time</div>
-  <div class="col-sm-3">time</div>
-  <div class="col-sm-3">time</div>
-  <div class="col-sm-3">time</div>
-  <div class="col-sm-3">time</div>
-  <div class="col-sm-3">time</div>
-  <div class="col-sm-3">time</div>
-  <div class="col-sm-3">time</div>
-  <div class="col-sm-3">time</div>
+  return `<div class="body container"><p id="subHeading">Tomorrow</p>
+    <div class="row">
+  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
+  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
+  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
+  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
+  </div>
+  <div class="row">
+  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
+  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
+  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
+  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
+  </div>
+  <div class="row">
+  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
+  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
+  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
+  <div class="more col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">More</a></div>
+  </div>
+  </div>
   </div>`;
-}
+};
 
 const widget = () => {
-  return (`
+  return `
   <div id='timeSlotWidget'> 
     ${widgetHeader()}
-    <hr/>
+    <hr />
     ${widgetBody()}
   </div>
-  `);
+  `;
 };
 
 $(document).ready(() => {
   $("#addContentHere").append(widget());
+  $.get(
+    "https://s3.amazonaws.com/wheelhouse-cdn/wheelhouse-www/assets/timeslotdata.json",
+    function(data, status) {
+      alert("Data: " + data + "\nStatus: " + status);
+    }
+  );
 });
