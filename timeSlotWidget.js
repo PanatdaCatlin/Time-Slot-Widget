@@ -1,47 +1,56 @@
 const widgetHeader = () => {
-  return `<div class="container"><h2>Book Online</h2>
+  return `<div id="header"><h2>Book Online</h2>
  <a href="http://www.wheelhousetesting.net">What do we treat? </a><a href="http://www.wheelhousetesting.net" id="link">How much will it cost? </a></div>`;
 };
-const widgetBody = () => {
-  return `<div class="body container"><p id="subHeading">Tomorrow</p>
+
+convertTime = utcTime => {
+  const date = new Date(utcTime);
+  let options = { hour: "2-digit", minute: "2-digit" };
+  let dateString = date.toLocaleString("en-us", options);
+  return dateString
+    .substring(0, dateString.length - 1)
+    .toLowerCase()
+    .replace(" ", "");
+};
+
+const renderTimeSlots = data => {
+  let timeSlots = "";
+  for (let i = 0; i < 11; i += 1) {
+    const timeSlot = convertTime(
+      data.scheduleDays[0].timeSlots[i].slotDateTime
+    );
+
+    timeSlots += `<div class="col-sm-3"><div class="btn go" role="button">${timeSlot}</div></div>`;
+  }
+  return timeSlots;
+};
+const widgetBody = data => {
+  return `<p id="subHeading">Tomorrow</p>
     <div class="row">
-  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
-  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
-  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
-  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
-  </div>
-  <div class="row">
-  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
-  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
-  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
-  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
-  </div>
-  <div class="row">
-  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
-  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
-  <div class="col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">Time</a></div>
+  ${renderTimeSlots(data)}
   <div class="more col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">More</a></div>
-  </div>
-  </div>
   </div>`;
 };
 
-const widget = () => {
+const widget = data => {
   return `
-  <div id='timeSlotWidget'> 
+  <div id='timeSlotWidget' class='container'> 
     ${widgetHeader()}
     <hr />
-    ${widgetBody()}
+    ${widgetBody(data)}
   </div>
   `;
 };
 
 $(document).ready(() => {
-  $("#addContentHere").append(widget());
   $.get(
     "https://s3.amazonaws.com/wheelhouse-cdn/wheelhouse-www/assets/timeslotdata.json",
     function(data, status) {
-      alert("Data: " + data + "\nStatus: " + status);
+      console.log(data, status);
+      $("#addContentHere").append(widget(data));
+      $(".go").click(
+        () => (window.location.href = "http://www.wheelhousetesting.net")
+      );
     }
   );
 });
