@@ -20,7 +20,7 @@ const renderTimeSlots = data => {
       data.scheduleDays[0].timeSlots[i].slotDateTime
     );
 
-    timeSlots += `<div class="col-sm-3"><div class="btn go" role="button">${timeSlot}</div></div>`;
+    timeSlots += `<div class="col-xs-3"><div class="btn go" role="button">${timeSlot}</div></div>`;
   }
   return timeSlots;
 };
@@ -28,7 +28,7 @@ const widgetBody = data => {
   return `<p id="subHeading">Tomorrow</p>
     <div class="row">
   ${renderTimeSlots(data)}
-  <div class="more col-sm-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">More</a></div>
+  <div class="more col-xs-3"><a class="btn" href="http://www.wheelhousetesting.net" role="button">More</a></div>
   </div>`;
 };
 
@@ -46,7 +46,6 @@ $(document).ready(() => {
   $.get(
     "https://s3.amazonaws.com/wheelhouse-cdn/wheelhouse-www/assets/timeslotdata.json",
     function(data, status) {
-      console.log(data, status);
       $("#addContentHere").append(widget(data));
       $(".go").click(
         () => (window.location.href = "http://www.wheelhousetesting.net")
